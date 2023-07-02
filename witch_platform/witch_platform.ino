@@ -12,7 +12,7 @@ int motorLeft2 = 7;
 int enableLeft = 5;
 int x,y=0;
 int control;               // Управление двигателями.
-int motorSpeed = 80;
+int motorSpeed = 255;
 int line_stop = 0;
 String status_ok = "OK";
 void setup() 

@@ -5,7 +5,7 @@
 int motorRight2 = 4;
 int enableRight = 3;
 
-int motorSpeed = 80;
+int motorSpeed = 255;
  int incomingByte;
 void setup() {
   pinMode (motorRight1, OUTPUT);
