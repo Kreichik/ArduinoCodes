@@ -12,9 +12,10 @@ int motorLeft2 = 7;
 int enableLeft = 5;
 int x,y=0;
 int control;               // Управление двигателями.
-int motorSpeed = 255;
+int motorSpeed = 100;
 int line_stop = 0;
 String status_ok = "OK";
+bool actionPerformed = false;
 
 void setup() 
 {
@@ -30,64 +31,23 @@ HC06.begin(9600);
 
 void loop() 
 {
-if(HC06.available() > 0) //When HC06 receive something
-  {
-     char receive = HC06.read(); //Read from Serial Communication
-    if(receive == '1') //If received data is 1, turn on the LED and send back the sensor data
-    {
-      HC06.println(line_stop);
-      }
-      if(receive == '2') //If received data is 1, turn on the LED and send back the sensor data
-    {
-      HC06.println(status_ok);
-      
-      }
-    }
-  x = analogRead(A0);
-  y = analogRead(A2);
-  Serial.print(x);
-  Serial.print("   ");
-    Serial.println(y);
-
-  if (x < 700 && y < 700)       // оба датчика на белом, машинка едет вперед
-  {
-    line_stop = 0;
-//    Serial.println("Forward");
-    rightWheelForward ();
-      leftWheelForward ();
-  }
-
-  if (x > 700 && y > 700)       // оба датчика на белом, машинка едет вперед
-  {
-    line_stop = 1;
-//    Serial.println("Forward");
-    rightWheelForward ();
-      leftWheelForward ();
-  }
-  if (x > 700 && y < 700)       // один датчик на белом, другой на черном
-  {
-    line_stop = 0;
-//    Serial.println("Left");
-   
-      leftWheelStop ();
-      rightWheelForward ();
-  }
-  if (x < 700 && y > 700)       // один датчик на белом, другой на черном
-  {
-    line_stop = 0;
-//    Serial.println("Right");
-    rightWheelStop ();
-      leftWheelForward ();
-  }
+  if (!actionPerformed) {
+  delay(43000);
+  rightWheelForward(120);
+  leftWheelForward (170);
+  delay(2000);
+  rightWheelStop();
+  leftWheelStop();
+  
 }
-
-void rightWheelForward () {               // Правое колесо вперёд.
+}
+void rightWheelForward (int motorSpeed) {               // Правое колесо вперёд.
   digitalWrite (motorRight1, LOW);
   digitalWrite (motorRight2, HIGH);
   analogWrite(enableRight, motorSpeed);
 }
 
-void leftWheelForward () {                // Левое колесо вперёд.
+void leftWheelForward (int motorSpeed)  {                // Левое колесо вперёд.
   digitalWrite (motorLeft1, LOW);
   digitalWrite (motorLeft2, HIGH);
   analogWrite(enableLeft, motorSpeed);
